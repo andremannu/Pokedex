@@ -32,8 +32,11 @@ class PokedexTests: XCTestCase {
     }
     
     func testLoading() {
-        let pokedexPage = PokedexPage()
+        let pokedexPage = PokedexPage(count: 1, next: nil, previous: nil, results: [PokemonInfo(name: "Charizard", url: "url")])
         mockPokemonService.getPokedexPage = .success(pokedexPage)
+        let pokemon = PokemonDetail(id: 1, name: "Bulbasaur", sprites: Sprite(), types: [Type()], stats: [Stat()])
+        mockPokemonService.getPokemonDetail = .success(pokemon)
+        
         var loadingStatus: [Bool] = []
         
         let myExpectation = XCTestExpectation(description: "Loading status updated")
@@ -81,7 +84,7 @@ class PokedexTests: XCTestCase {
         let pokemon = PokemonDetail(id: 1, name: "Bulbasaur", sprites: Sprite(), types: [Type()], stats: [Stat()])
         mockPokemonService.getPokemonDetail = .success(pokemon)
 
-        let myExpectation = XCTestExpectation(description: "Page loaded successfully")
+        let myExpectation = XCTestExpectation(description: "Pokemon loaded successfully")
 
         let disposeBag = DisposeBag()
         sut.pokemonLoaded.skip(1)
